@@ -27,15 +27,26 @@ def copyToDFS(address, fname, path):
 	# Create a connection to the data server
 
 	# Fill code
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 	# Read file
 
 	# Fill code
+	fp = file(fname, 'r')
 
 	# Create a Put packet with the fname and the length of the data,
 	# and sends it to the metadata server 
 
 	# Fill code
+	p = Packet()
+
+	packet = p.BuildPutPacket(fname, path.getsize(fname))
+
+	sock.connect(address)
+	sock.sendall(p.getEncodedPacket())
+
+	msg = sock.recv(1024)
+	sock.close()
 
 	# If no error or file exists
 	# Get the list of data nodes.
@@ -43,10 +54,14 @@ def copyToDFS(address, fname, path):
 	# Send the blocks to the data servers
 
 	# Fill code	
-
+	if msg == "DUP":
+		print "The file '%s' is already in the file system." % fname
+	elif msg == "OK":
+		pass
 	# Notify the metadata server where the blocks are saved.
 
 	# Fill code
+
 	
 def copyFromDFS(address, fname, path):
 	""" Contact the metadata server to ask for the file blocks of

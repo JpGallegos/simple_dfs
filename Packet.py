@@ -66,7 +66,6 @@ class Packet:
 		if self.packet.has_key("files"):
 			return self.packet["files"]
 
-
 	def BuildGetPacket(self, fname):
 		"""Build a get packet to get fname."""
 		self.BuildCommand("get")

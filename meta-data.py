@@ -54,10 +54,11 @@ class MetadataTCPHandler(SocketServer.BaseRequestHandler):
 		"""
 	       
 		# Fill code
+		info = p.getFileInfo()
 
 		if db.InsertFile(info[0], info[1]):
 			# Fill code
-			pass
+			self.request.sendall("OK")
 		else:
 			self.request.sendall("DUP")
 	
