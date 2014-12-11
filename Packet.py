@@ -130,9 +130,6 @@ class Packet:
 		if cmd in self.commands:
 			self.packet = {"command": cmd}
 
-
-
-		
-	
-		
-		
+	def RefreshPacket(self):
+		"""Clear the packet data for reuse."""
+		self.packet = {}

@@ -78,7 +78,7 @@ class mds_db:
 		   datanodes chunks can be send.
 		"""
 
-		query = """select address, port from dnode where 1"""
+		query = """SELECT address, port FROM dnode"""
 		self.c.execute(query)
 		return self.c.fetchall()
 
@@ -86,7 +86,7 @@ class mds_db:
 		"""Create the inode attributes.  For this project the name of the
 		   file and its size.
 		"""
-		query = """insert into inode (fname, fsize) values ("%s", %s)""" % (fname, fsize)
+		query = """INSERT INTO inode (fname, fsize) VALUES (\"%s\", %s)""" % (fname, fsize)
 		try:
 			self.c.execute(query)
 			return 1
