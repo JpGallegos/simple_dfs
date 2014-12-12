@@ -42,7 +42,7 @@ def copyToDFS(address, fname, path):
 	# and sends it to the metadata server 
 	p = Packet()
 
-	packet = p.BuildPutPacket(fname, fsize)
+	packet = p.BuildPutPacket(path+fname, fsize)
 
 	sock.connect(address)
 	sock.sendall(p.getEncodedPacket())

@@ -13,6 +13,7 @@ import sys
 import socket
 import SocketServer
 import uuid
+import os
 import os.path
 
 def usage():
@@ -58,7 +59,10 @@ class DataNodeTCPHandler(SocketServer.BaseRequestHandler):
 		   copy client.
 		"""
 
-		fname, fsize = p.getFileInfo()
+		rawfname, fsize = p.getFileInfo()
+
+		dirname = os.path.dirname(rawfname)
+		fname = os.path.basename(rawfname)
 
 		self.request.send("OK")
 
@@ -66,11 +70,20 @@ class DataNodeTCPHandler(SocketServer.BaseRequestHandler):
 		blockid = str(uuid.uuid1())
 
 
-		# Open the file for the new data block.  
+		# Open the file for the new data block. 
+		if not os.path.exists(dirname):
+			os.mkdir(dirname)
+
+		fp = open(rawfname, 'bw')
+
 		# Receive the data block.
 		# Send the block id back
 
 		# Fill code
+		p = Packet()
+		p.BuildGetDataBlockPacket(blockid)
+
+		fp.close()
 
 	def handle_get(self, p):
 		
@@ -115,6 +128,8 @@ if __name__ == "__main__":
 		if not os.path.isdir(DATA_PATH):
 			print "Error: Data path %s is not a directory." % DATA_PATH
 			usage()
+		if not os.path.exists(DATA_PATH):
+			os.mkdir(DATA_PATH)
 	except:
 		usage()
 
